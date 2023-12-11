@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  background-image: "url('https://media.giphy.com/media/xThuWd5Go1F2qDsg1O/giphy.gif')"
 }
 
 .loader {
@@ -47,4 +48,15 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.pageWithOrangeBorder {
+  min-height: 100vh; /* Ensure the content div takes up at least the full height of the viewport */
+  border: 10px solid orange; /* Set orange border for the entire page */
+  box-sizing: border-box; /* Include border in element's total width and height */
+}
+
+.dialogPaper {
+  border-radius: 12px;
+  font-family: monospace;
 }

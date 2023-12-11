@@ -1,6 +1,8 @@
 import { useState } from 'react';
 
 export default function DemoUseState() {
+  console.log("SHRI 111")
+
   const [isFancy, setIsFancy] = useState(false);
   if (isFancy) {
     return (
