@@ -11,6 +11,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DemoUseState from './DemoUseState';
 import DemoUseEffect from './DemoUseEffect';
 import DemoUseRef from './DemoUseRef';
+import DemoUseCallback from './DemoUseCallback';
+import DemoUseMemo from './DemoUseMemo';
+import DemoUseTransition from './DemoUseTransition';
+import DemoUse from './DemoUse';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import '../../src/App.css';
@@ -35,6 +39,11 @@ export default function DisplayScreen() {
     const [openUseState, setOpenUseState] = React.useState(false);
     const [openUseEffect, setOpenUseEffect] = React.useState(false);
     const [openUseRef, setOpenUseRef] = React.useState(false);
+    const [openUseCallback, setOpenUseCallback] = React.useState(false);
+    const [openUseTransition, setOpenUseTransition] = React.useState(false);
+    const [openUseMemo, setOpenUseMemo] = React.useState(false);
+    const [openUse, setOpenUse] = React.useState(false);
+
 
     const handleClickOpen = (prop) => {
         switch(prop) {
@@ -46,7 +55,16 @@ export default function DisplayScreen() {
                 break;
             case 'useRef':
                 setOpenUseRef(true);
-                break;    
+                break;  
+            case 'useMemo':
+              setOpenUseMemo(true);
+              //break;
+            case 'useCallback':
+                setOpenUseCallback(true);
+                break;
+            case 'useTransition':
+                setOpenUseTransition(true);
+                break;       
             default:
                 break;    
         }
@@ -62,7 +80,18 @@ export default function DisplayScreen() {
                 break;
             case 'useRef':
                 setOpenUseRef(false);
-                break;    
+                break;  
+            case 'useMemo':
+              setOpenUseMemo(false);
+              //break;
+            case 'useCallback':
+                setOpenUseCallback(false);
+                break;
+            case 'useTransition':
+                setOpenUseTransition(false);
+                break;       
+            case 'use':
+              setOpenUse(false); 
             default:
                 break;    
         }
@@ -87,11 +116,27 @@ export default function DisplayScreen() {
       </Grid>
       <div style={{paddingBottom: '40px'}}>      </div>
       <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-        {['UseMemo', 'UseCallback', 'UseTransition'].map((value, index) => (
-          <Grid item xs={2} sm={4} md={4} key={index}>
-            <Item>{value}</Item>
+          <Grid item xs={2} sm={4} md={4} key={0}>
+            <div onClick={()=>setOpenUseCallback(true)}>
+                <Item >UseCallback</Item>
+            </div>
           </Grid>
-        ))}
+          <Grid item xs={2} sm={4} md={4} key={1} onClick={()=>setOpenUseMemo(true)} >
+            <Item>UseMemo</Item>
+          </Grid>
+          <Grid item xs={2} sm={4} md={4} key={2} onClick={()=>setOpenUseTransition(true)}>
+            <Item>UseTransition</Item>
+          </Grid>
+      </Grid>
+
+      <div style={{paddingBottom: '40px'}}>      </div>
+
+      <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+          
+          <Grid item xs={2} sm={4} md={4} key={2} onClick={()=>setOpenUse(true)} >
+            <Item>Use</Item>
+          </Grid>
+          
       </Grid>
       
       <Dialog
@@ -153,6 +198,102 @@ export default function DisplayScreen() {
         </DialogTitle>
         <DialogContent>            
           <DemoUseRef />
+          </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={openUseCallback}
+        onClose={()=>handleClose('useCallback')}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        classes={{
+            paper: "dialogPaper",
+          }}
+      >
+        <DialogTitle id="alert-dialog-title">
+          UseCallback Example:
+          <IconButton
+              data-testid="close_icon_svg"
+              aria-label="close"
+              onClick={()=>handleClose('useCallback')}
+            >
+              <CloseIcon width="12px" height="12px" fillColour="black" />
+            </IconButton>
+        </DialogTitle>
+        <DialogContent>            
+          <DemoUseCallback />
+          </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={openUseMemo}
+        onClose={()=>handleClose('useMemo')}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        classes={{
+            paper: "dialogPaper",
+          }}
+      >
+        <DialogTitle id="alert-dialog-title">
+          UseMemo Example:
+          <IconButton
+              data-testid="close_icon_svg"
+              aria-label="close"
+              onClick={()=>handleClose('useMemo')}
+            >
+              <CloseIcon width="12px" height="12px" fillColour="black" />
+            </IconButton>
+        </DialogTitle>
+        <DialogContent>            
+          <DemoUseMemo />
+          </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={openUseTransition}
+        onClose={()=>handleClose('useTransition')}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        classes={{
+            paper: "dialogPaper",
+          }}
+      >
+        <DialogTitle id="alert-dialog-title">
+          UseTransition Example:
+          <IconButton
+              data-testid="close_icon_svg"
+              aria-label="close"
+              onClick={()=>handleClose('useTransition')}
+            >
+              <CloseIcon width="12px" height="12px" fillColour="black" />
+            </IconButton>
+        </DialogTitle>
+        <DialogContent>            
+          <DemoUseTransition />
+          </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={openUse}
+        onClose={()=>handleClose('use')}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        classes={{
+            paper: "dialogPaper",
+          }}
+      >
+        <DialogTitle id="alert-dialog-title">
+          Use Example:
+          <IconButton
+              data-testid="close_icon_svg"
+              aria-label="close"
+              onClick={()=>handleClose('use')}
+            >
+              <CloseIcon width="12px" height="12px" fillColour="black" />
+            </IconButton>
+        </DialogTitle>
+        <DialogContent>            
+          <DemoUse />
           </DialogContent>
       </Dialog>
  
