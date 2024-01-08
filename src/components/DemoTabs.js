@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../App.css';
+import DemoTodo from './DemoTodo';
 
 class DemoTabs extends Component {
   constructor(props) {
@@ -8,6 +9,9 @@ class DemoTabs extends Component {
       activeTab: 1,
       searchQuery: '',
       data: [],
+      page: 1,
+      loading: true,
+      error: null,
     };
   }
 
@@ -16,22 +20,33 @@ class DemoTabs extends Component {
   }
 
   fetchData() {
-    const apiUrl = 'https://api.scaleserp.com/search?api_key=demo&q=pizza'
+    const { page } = this.state;
+    const apiUrl = `https://jsonplaceholder.typicode.com/posts?_page=${page}&_limit=10`;
+
     fetch(apiUrl)
-      .then((response) => {
-        console.log("SHRI 00 response --", response);
+      .then(response => {
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error(`HTTP error! Status: ${response.status}`);
         }
         return response.json();
       })
-      .then((data) => {
-        this.setState({ data, error: null });
+      .then(data => {
+        this.setState(prevState => ({
+          data: [...prevState.data, ...data],
+          page: prevState.page + 1,
+          loading: false,
+        }));
       })
-      .catch((error) => {
-        this.setState({ data: null, error });
+      .catch(error => {
+        this.setState({ error, loading: false });
       });
   }
+
+  handleLoadMore = () => {
+    this.setState({ loading: true }, () => {
+      this.fetchData();
+    });
+  };
 
   handleTabClick = (tabNumber) => {
     this.setState({ activeTab: tabNumber });
@@ -41,9 +56,31 @@ class DemoTabs extends Component {
     this.setState({ searchQuery: e.target.value });
   };
 
+  renderToDoList = () => {
+    switch (this.state.activeTab) {
+      case 1:
+        return <DemoTodo />
+      case 2:
+        return <DemoTodo />
+      case 3:
+        return <DemoTodo />
+      case 4:
+        return <DemoTodo />
+      case 5:
+        return <DemoTodo />
+      default:
+        return <DemoTodo />
+    }
+  }
+
   render() {
-    const { activeTab, searchQuery, data } = this.state;
-    //console.log("SHRI 00 data --", data);
+    const { activeTab, searchQuery, data, loading, error } = this.state;
+    console.log("SHRI 00 data --", data);
+
+    if (error) {
+      return <div>Error: {error.message}</div>;
+    }
+
     return (
       <React.Fragment>
       <div className="tabs-container">
@@ -67,8 +104,23 @@ class DemoTabs extends Component {
         />
         <button className="search-button">Search</button>
       </div>
-      <div className="tab-content">{`Content for Tab ${activeTab}`}</div>
+      <div className="tab-content">
+        <DemoTodo />
+      </div>
 
+      {/* <div>
+        <ul>
+          {data.map(post => (
+            <li key={post.id}>{post.title}</li>
+          ))}
+        </ul>
+        {loading && <p>Loading...</p>}
+        {!loading && (
+          <button onClick={this.handleLoadMore} disabled={loading}>
+            Load More
+          </button>
+        )}
+      </div> */}
       </React.Fragment>
     );
   }
